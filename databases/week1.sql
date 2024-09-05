@@ -20,3 +20,10 @@ SELECT *
 FROM task
 JOIN status  ON task.status_id = status.id
 WHERE status.name <> 'done';
+
+--Get all the tasks, sorted with the most recently created first
+SELECT *
+FROM task
+ORDER BY created DESC;
+
+
