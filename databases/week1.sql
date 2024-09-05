@@ -30,4 +30,8 @@ SELECT *
 FROM task
 ORDER BY created DESC
 LIMIT 1;
+-- Get the title and due date of all tasks where the title or description contains database
+SELECT title, due_date
+FROM task
+WHERE title LIKE '%database%' OR description LIKE '%database%';
 
