@@ -34,4 +34,7 @@ LIMIT 1;
 SELECT title, due_date
 FROM task
 WHERE title LIKE '%database%' OR description LIKE '%database%';
-
+-- Get the title and status (as text) of all tasks
+SELECT task.title, status.name
+FROM task
+JOIN status ON task.status_id = status.id;
