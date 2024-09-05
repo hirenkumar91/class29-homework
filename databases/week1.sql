@@ -25,5 +25,9 @@ WHERE status.name <> 'done';
 SELECT *
 FROM task
 ORDER BY created DESC;
-
+-- Get the single most recently created task
+SELECT *
+FROM task
+ORDER BY created DESC
+LIMIT 1;
 
