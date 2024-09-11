@@ -35,3 +35,4 @@ CREATE TABLE Review (
  created_date DATETIME NOT NULL,
  FOREIGN KEY (meal_id) REFERENCES meal(id)
 );
+
