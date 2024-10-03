@@ -23,7 +23,7 @@ app.use("/api", apiRouter);
 const contactsAPIRouter = express.Router();
 apiRouter.use("/contacts", contactsAPIRouter);
 
-contactsAPIRouter.get("/", async (req, res) => {
+/* contactsAPIRouter.get("/", async (req, res) => {
   let query = knexInstance.select("*").from("contacts");
 
   if ("sort" in req.query) {
@@ -42,8 +42,39 @@ contactsAPIRouter.get("/", async (req, res) => {
     console.error(e);
     res.status(500).json({ error: "Internal server error" });
   }
-});
+}); */
 
-app.listen(port, () => {
+contactsAPIRouter.get("/", async (req, res) => {
+    let query = knexInstance.select("*").from("contacts");
+  
+    if ("sort" in req.query) {
+      const orderBy = req.query.sort.toString().split(' ');
+      const column = orderBy[0];
+      const direction = orderBy[1] ? orderBy[1].toLowerCase() : 'asc';
+  
+      const validSortColumns = ['id', 'first_name', 'last_name', 'email', 'phone'];
+      const validSortDirections = ['asc', 'desc'];
+  
+      // Validate sort parameters
+      if (validSortColumns.includes(column) && validSortDirections.includes(direction)) {
+        query = query.orderBy(column, direction);
+      } else {
+        return res.status(400).json({ error: "Invalid sort parameter" });
+      }
+    }
+  
+    console.log("SQL", query.toSQL().sql);
+  
+    try {
+      const data = await query;
+      res.json({ data });
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+
+  app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
